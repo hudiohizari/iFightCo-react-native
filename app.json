@@ -1,0 +1,17 @@
+{
+  "name": "iFightCo",
+  "displayName": "iFightCo",
+  "expo": {
+    "name": "iFightCo",
+    "slug": "iFightCo",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
