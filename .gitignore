@@ -62,3 +62,7 @@ app.manifest
 
 # Expo
 .expo/*
+
+# Environment
+.env.development
+.env.production
