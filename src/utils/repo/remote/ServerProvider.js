@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import Config from '../../Config'
+import Env from '../../Env'
 // import LRM from '../local/LocalRequestManager'
 
 import CommonUtils from '../../CommonUtils'
@@ -11,7 +11,7 @@ const ApiCentral = async (options, isHeader = true) => {
     // if (isHeader) authHeader = await LRM.getUserToken() /// Add header
   
     const client = axios.create({
-        baseURL: Config.BASE_URL,
+        baseURL: Env.BASE_URL,
         headers: { 
             Accept: "application/json",
             "Content-Type": "application/json",

@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { YellowBox, StyleSheet, Dimensions, ScrollView, View, Text, FlatList, Linking, Platform } from 'react-native'
 import MapView from 'react-native-maps'
 
+import SRM from '../utils/repo/remote/ServerRequestManager'
 import { IconVirus, IconRecover, IconTombstone } from '../utils/repo/local/SvgRequestManager'
 import DashboardMenuItem from '../components/DashboardMenuItem'
 import DashboardSponsorItem from '../components/DashboardSponsorItem'
@@ -21,25 +22,40 @@ const HomeScreen = () => {
     const [recover, setRecover] = useState(0)
     const [death, setDeath] = useState(0)
 
+    useEffect(() => {
+        getRatio()
+    }, [])
+    
+    const getRatio = async () => { 
+        SRM.getRatio()
+        .then(data => {
+            console.log(data)
+            setPositive(data.confirmed)
+            setRecover(data.recovered)
+            setDeath(data.deaths)
+            setLastUpdated("Terakhir diperbarui: " + data.lastupdated)
+        })
+        .catch(error => {})
+    }
+
     const handlerMenuSelected = item => {
-        if(!item.isActive) CommonUtils.showAlert("info", `Menu ${item.title}`, "Is not ready yet")
+        if(!item.isActive) CommonUtils.showAlert("info", `${item.title}`, "Is not ready yet")
         else {
-            if(item.id === Keys.KEY_MENU_RS_RUJUKAN) {}
-            else if(item.id === Keys.KEY_MENU_EDUKASI_COVID) {}
-            else if(item.id === Keys.KEY_MENU_DIAGNOSA_MANDIRI) {}
-            else if(item.id === Keys.KEY_MENU_DATA_INTERNASIONAL) {}
-            else if(item.id === Keys.KEY_MENU_HOTLINE) {
-                const url = Platform.OS === "ios" ? "tel://119" : "tel:119"
-                Linking.openURL(url)
+            if(item.link){
+                CommonUtils.showAlert("info", `${item.title}`, "Is not ready yet")
+            } else {
+                if(item.id === Keys.KEY_MENU_RS_RUJUKAN) {}
+                else if(item.id === Keys.KEY_MENU_HOTLINE) {
+                    const url = Platform.OS === "ios" ? "tel://119" : "tel:119"
+                    Linking.openURL(url)
+                }
+                else if(item.id === Keys.KEY_MENU_LACAK_ODSODP) {}
             }
-            else if(item.id === Keys.KEY_MENU_INDONESIA_PEDULI) {}
-            else if(item.id === Keys.KEY_MENU_LACAK_ODSODP) {}
-            else if(item.id === Keys.KEY_MENU_GRAFIK_INDONESIA) {}
         }
     }
 
     const handlerSponsorSelected = item => {
-        if(!item.isActive) CommonUtils.showAlert("info", `Menu ${item.title}`, "Is not ready yet")
+        if(!item.isActive) CommonUtils.showAlert("info", `${item.title}`, "Is not ready yet")
         else {
             Linking.canOpenURL(item.link).then(supported => {
                 if (supported) {

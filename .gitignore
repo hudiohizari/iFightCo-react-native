@@ -64,5 +64,4 @@ app.manifest
 .expo/*
 
 # Environment
-.env.development
-.env.production
+Env.js

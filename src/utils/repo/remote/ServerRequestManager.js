@@ -1,18 +1,14 @@
-// import request from './ServerProvider'
+import request from './ServerProvider'
 
-// const reqLogin = (email, password) => {
-//     return request({
-//         url: "/login",
-//         method: "POST",
-//         data: {
-//             email,
-//             password
-//         }
-//     })
-// }
+const getRatio = () => {
+    return request({
+        url: "ratio",
+        method: "GET"
+    })
+}
 
 const ServerRequestManager = {
-    // reqLogin, 
+    getRatio, 
 }
 
 export default ServerRequestManager

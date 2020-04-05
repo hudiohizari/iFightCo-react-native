@@ -17,24 +17,27 @@ export const MenuList = [
         id: Keys.KEY_MENU_RS_RUJUKAN,
         title: 'RS Rujukan',
         img: IconHospital,
-        isActive: true
+        isActive: false
     },
     {
         id: Keys.KEY_MENU_EDUKASI_COVID,
         title: 'Edukasi COVID-19',
         img: IconBook,
+        link: "https://www.prixa.ai/post/corona-covid-19/",
         isActive: true
     },
     {
         id: Keys.KEY_MENU_DIAGNOSA_MANDIRI,
         title: 'Diagnosa Mandiri',
         img: IconStethoscope,
+        link: "https://covid19.prixa.ai/?pId=817d1193-f4ce-439e-b357-16466695d970&appId=9f9d9731-8331-4cb3-a441-95d5d8b44d7f/",
         isActive: true
     },
     {
         id: Keys.KEY_MENU_DATA_INTERNASIONAL,
         title: 'Data Internasional',
         img: IconDatabase,
+        link: "https://www.worldometers.info/coronavirus/",
         isActive: true
     },
     {
@@ -47,6 +50,7 @@ export const MenuList = [
         id: Keys.KEY_MENU_INDONESIA_PEDULI,
         title: 'Indonesia Peduli',
         img: IconDtPeduli,
+        link: "https://dtpeduli.org/donasi/program/",
         isActive: true
     },
     {
@@ -59,6 +63,7 @@ export const MenuList = [
         id: Keys.KEY_MENU_GRAFIK_INDONESIA,
         title: 'Grafik Indonesia',
         img: IconBarChart,
+        link: "https://infocorona.id/chart/",
         isActive: true
     },
 ]
