@@ -14,7 +14,7 @@ import CommonUtils from '../utils/CommonUtils'
 import Keys from '../utils/Keys'
 import { Constants } from 'react-native-unimodules'
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     YellowBox.ignoreWarnings([ "VirtualizedLists should never be nested", /*TODO: Remove when fixed*/ ])
 
     const [lastUpdated, setLastUpdated] = useState("Terakhir diperbarui: -")
@@ -24,12 +24,12 @@ const HomeScreen = () => {
 
     useEffect(() => {
         getRatio()
+        getProvinces()
     }, [])
     
     const getRatio = async () => { 
         SRM.getRatio()
         .then(data => {
-            console.log(data)
             setPositive(data.confirmed)
             setRecover(data.recovered)
             setDeath(data.deaths)
@@ -37,12 +37,23 @@ const HomeScreen = () => {
         })
         .catch(error => {})
     }
+    
+    const getProvinces = async () => { 
+        SRM.getProvinces()
+        .then(data => {
+            console.log(data)
+        })
+        .catch(error => {})
+    }
 
     const handlerMenuSelected = item => {
-        if(!item.isActive) CommonUtils.showAlert("info", `${item.title}`, "Is not ready yet")
+        if(!item.isActive) CommonUtils.showAlert("info", `${item.title}`, "Masih dalam tahap pengembangan")
         else {
             if(item.link){
-                CommonUtils.showAlert("info", `${item.title}`, "Is not ready yet")
+                navigation.navigate("WebView", {
+                    title: item.title,
+                    link: item.link,
+                })
             } else {
                 if(item.id === Keys.KEY_MENU_RS_RUJUKAN) {}
                 else if(item.id === Keys.KEY_MENU_HOTLINE) {
@@ -55,7 +66,7 @@ const HomeScreen = () => {
     }
 
     const handlerSponsorSelected = item => {
-        if(!item.isActive) CommonUtils.showAlert("info", `${item.title}`, "Is not ready yet")
+        if(!item.isActive) CommonUtils.showAlert("info", `${item.title}`, "Masih dalam tahap pengembangan")
         else {
             Linking.canOpenURL(item.link).then(supported => {
                 if (supported) {

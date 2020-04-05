@@ -19,12 +19,12 @@ const ApiCentral = async (options, isHeader = true) => {
     })
   
     const onSuccess = function (response) {
-        if(Config.IS_DEV) console.debug("Request Successful!", response)
+        if(Env.IS_DEV) console.debug("Request Successful!", response)
         return response.data
     }
   
     const onError = function (error) {
-        if(Config.IS_DEV) {
+        if(Env.IS_DEV) {
             console.debug("Request Failed:", error.config)
             if (error.response) {
                 // Request was made but server responded with something

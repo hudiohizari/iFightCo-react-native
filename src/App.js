@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import DropdownAlert from 'react-native-dropdownalert'
 
 import NavigationScreen from './screens/NavigationScreen'
+import WebViewScreen from './screens/WebViewScreen'
 
 import AlertUtils from './utils/AlertUtils'
 
@@ -19,6 +20,9 @@ export default function App() {
 					<Stack.Screen 
 						name="Navigation" 
 						component={NavigationScreen}/>
+					<Stack.Screen 
+						name="WebView" 
+						component={WebViewScreen}/>
 				</Stack.Navigator>
 			</NavigationContainer>
 
