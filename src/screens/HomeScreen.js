@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { YellowBox, StyleSheet, Dimensions, ScrollView, View, Text, FlatList, Linking, Platform } from 'react-native'
+import React, { useRef, useState, useEffect } from 'react'
+import { YellowBox, StyleSheet, Dimensions, ScrollView, View, Text, FlatList, Linking, Platform, Image } from 'react-native'
 import MapView from 'react-native-maps'
 
+import { IconCircleGreen, IconCircleRed } from '../utils/repo/local/SvgRequestManager'
 import SRM from '../utils/repo/remote/ServerRequestManager'
 import { IconVirus, IconRecover, IconTombstone } from '../utils/repo/local/SvgRequestManager'
 import DashboardMenuItem from '../components/DashboardMenuItem'
@@ -17,15 +18,29 @@ import { Constants } from 'react-native-unimodules'
 const HomeScreen = ({ navigation }) => {
     YellowBox.ignoreWarnings([ "VirtualizedLists should never be nested", /*TODO: Remove when fixed*/ ])
 
+    const mapRef = useRef(null)
+
     const [lastUpdated, setLastUpdated] = useState("Terakhir diperbarui: -")
     const [positive, setPositive] = useState(0)
     const [recover, setRecover] = useState(0)
     const [death, setDeath] = useState(0)
+    const [provinces, setProvinces] = useState([])
 
     useEffect(() => {
         getRatio()
         getProvinces()
     }, [])
+
+    useEffect(() => {
+        const positions = provinces.map(province => (
+            {latitude: parseFloat(province.lat, 0), longitude: parseFloat(province.lng, 0)}
+        ))
+        if(positions.length > 0){
+            mapRef.current.fitToCoordinates(
+                positions, 
+                { edgePadding: { top: 10, right: 10, bottom: 10, left: 10 } })
+        }
+    }, [provinces])
     
     const getRatio = async () => { 
         SRM.getRatio()
@@ -40,9 +55,7 @@ const HomeScreen = ({ navigation }) => {
     
     const getProvinces = async () => { 
         SRM.getProvinces()
-        .then(data => {
-            console.log(data)
-        })
+        .then(data => { setProvinces(data.province) })
         .catch(error => {})
     }
 
@@ -70,11 +83,27 @@ const HomeScreen = ({ navigation }) => {
         else {
             Linking.canOpenURL(item.link).then(supported => {
                 if (supported) {
-                  Linking.openURL(item.link);
+                  Linking.openURL(item.link)
                 } else {
-                  console.log("Don't know how to open URI: " + item.link);
+                  console.log("Don't know how to open URI: " + item.link)
                 }
-              });
+            })
+        }
+    }
+
+    const getMarkerSize = size => {
+        if(size <= 100){
+            return 10
+        } else if (size > 100 && size < 500) {
+            return size / 20
+        } else if (size >= 500 && size < 1000) {
+            return size / 25
+        } else if (size >= 1000 && size < 1500) {
+            return size / 30
+        } else if (size >= 1500 && size < 2000) {
+            return size / 35
+        } else {
+            return 64
         }
     }
 
@@ -87,8 +116,24 @@ const HomeScreen = ({ navigation }) => {
                 {Strings.labelWelcomeEnd}
             </Text>
 
-            <MapView style={styles.mapStyle}
-                provider={MapView.PROVIDER_GOOGLE} />
+            <MapView ref={mapRef}
+                style={styles.mapStyle}
+                provider={MapView.PROVIDER_GOOGLE}
+                onMarkerPress={(marker) => {console.log(marker)}}>
+                {provinces.map(province => (
+                    <MapView.Marker
+                        key={`${parseFloat(province.lat, 0)}, ${parseFloat(province.lng, 0)}`}
+                        coordinate={{latitude: parseFloat(province.lat, 0), longitude: parseFloat(province.lng, 0)}}
+                        title={province.province}
+                        description={"Kasus Positif: " + province.positive}>
+                        {
+                            province.positive > 0 ? 
+                            <IconCircleRed size={getMarkerSize(province.positive)} /> : 
+                            <IconCircleGreen size={10} />
+                        }
+                    </MapView.Marker>
+                ))}
+            </MapView>
 
             <Text style={styles.textLastUpdate}>{lastUpdated}</Text>
 

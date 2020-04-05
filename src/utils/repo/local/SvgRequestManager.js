@@ -11,6 +11,8 @@ import SvgPhone from '../../../assets/svgs/SvgPhone'
 import SvgDtPeduli from '../../../assets/svgs/SvgDtPeduli'
 import SvgSearch from '../../../assets/svgs/SvgSearch'
 import SvgBarChart from '../../../assets/svgs/SvgBarChart'
+import SvgCircleGreen from '../../../assets/svgs/SvgCircleGreen'
+import SvgCircleRed from '../../../assets/svgs/SvgCircleRed'
 
 export const IconVirus = props => {
     return <SvgVirus {...props}/>
@@ -44,4 +46,10 @@ export const IconSearch = props => {
 }
 export const IconBarChart = props => {
     return <SvgBarChart {...props}/>
+}
+export const IconCircleGreen = props => {
+    return <SvgCircleGreen {...props}/>
+}
+export const IconCircleRed = props => {
+    return <SvgCircleRed {...props}/>
 }
