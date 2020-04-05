@@ -4,11 +4,9 @@ import Constants from 'expo-constants'
 
 const StatusBar = props => {
     return (
-        <View style={{...styles.statusBar, backgroundColor: Platform.OS == "android" ? "black" : props.color}}>
+        <View style={{...styles.statusBar, backgroundColor: props.color}}>
             <DefaultStatusBar barStyle={
-                    Platform.OS == "ios" ? 
-                    (props.isLight == true ? "light-content" : "dark-content") :
-                    null
+                    (props.isLight == true ? "light-content" : "dark-content") 
                 }/>
         </View>
     )
@@ -16,7 +14,7 @@ const StatusBar = props => {
 
 const styles = StyleSheet.create({
     statusBar: {
-        height: Constants.statusBarHeight,
+        height: Platform.OS == "ios" ? Constants.statusBarHeight : 0,
     }
 })
 

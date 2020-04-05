@@ -7,9 +7,19 @@
     "version": "1.0.0",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
+    "ios": {
+      "bundleIdentifier": "id.rumahawan.ifightco",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "id.rumahawan.ifightco",
+      "versionCode": 1,
+      "config": {
+         "googleMaps": { "apiKey": "AIzaSyAMWngA0O5I6be3i1VhfmMnoIml9oJJxcw" }   
+      }
+    },
     "assetBundlePatterns": [
       "**/*"
     ]
