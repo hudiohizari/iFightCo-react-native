@@ -10,5 +10,10 @@ export default {
     labelSembuh: "Sembuh",
     labelMeninggal: "Meninggal",
     labelKasus: "Kasus",
+    labelLayanan: "Layanan Aplikasi",
+    labelLayananCaption: "Nikmati layanan terbaik Indonesia sehat",
+    labelSponsor: "Terima Kasih",
+    labelSponsorCaption: "Penyedia data open source sebagai sumber terpercaya dan sponsor yang telah membantu",
+    labelAplikasiVersi: "Aplikasi Versi",
 
 }
