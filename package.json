@@ -8,6 +8,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@expo/vector-icons": "^10.0.6",
+    "@react-native-community/masked-view": "^0.1.6",
+    "@react-navigation/bottom-tabs": "^5.2.5",
+    "@react-navigation/native": "^5.1.4",
+    "@react-navigation/stack": "^5.2.9",
     "expo": "~37.0.3",
     "expo-secure-store": "^8.1.0",
     "expo-updates": "~0.1.0",
@@ -15,8 +20,10 @@
     "react-dom": "~16.9.0",
     "react-native": "~0.61.4",
     "react-native-dotenv": "^0.2.0",
+    "react-native-dropdownalert": "^4.2.1",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-reanimated": "~1.7.0",
+    "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "~2.2.0",
     "react-native-unimodules": "~0.9.0",
     "react-native-web": "~0.11.7"
