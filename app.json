@@ -17,11 +17,15 @@
       "package": "id.rumahawan.ifightco",
       "versionCode": 1,
       "config": {
-         "googleMaps": { "apiKey": "AIzaSyAMWngA0O5I6be3i1VhfmMnoIml9oJJxcw" }   
+        "googleMaps": {
+          "apiKey": "AIzaSyAMWngA0O5I6be3i1VhfmMnoIml9oJJxcw"
+        }
       }
     },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "description": "",
+    "githubUrl": "https://github.com/hudiohizari/iFightCo-react-native"
   }
 }

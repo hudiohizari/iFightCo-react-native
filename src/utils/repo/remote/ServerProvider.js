@@ -24,24 +24,24 @@ const ApiCentral = async (options, isHeader = true) => {
     }
   
     const onError = function (error) {
-        if(Env.IS_DEV) {
-            console.debug("Request Failed:", error.config)
-            if (error.response) {
-                // Request was made but server responded with something
-                // other than 2xx
-                CommonUtils.showAlert("error", "Something wrong", `Status: ${error.response.status}`)
+        if(Env.IS_DEV) console.debug("Request Failed:", error.config)
+        if (error.response) {
+            // Request was made but server responded with something
+            // other than 2xx
+            CommonUtils.showAlert("error", "Something wrong", `Status: ${error.response.status}`)
+            if(Env.IS_DEV) {
                 console.debug("Status:", error.response.status)
                 console.debug("Data:", error.response.data)
                 console.debug("Headers:", error.response.headers)
-            } else {
-                // Something else happened while setting up the request
-                // triggered the error
-                CommonUtils.showAlert("error", "Something wrong", `Message: ${error.message}`)
-                console.debug("Error Message:", error.message)
             }
-      }
-  
-      return Promise.reject(error.response || error.message)
+        } else {
+            // Something else happened while setting up the request
+            // triggered the error
+            CommonUtils.showAlert("error", "Something wrong", `Message: ${error.message}`)
+            if(Env.IS_DEV) console.debug("Error Message:", error.message)
+        }
+    
+        return Promise.reject(error.response || error.message)
     }
   
   

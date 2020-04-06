@@ -6,8 +6,8 @@ import { Ionicons } from '@expo/vector-icons'
 import HomeScreen from './HomeScreen'
 import InboxScreen from './InboxScreen'
 
-import StatusBar from '../components/StatusBar'
-import Colors  from '../utils/Colors'
+import StatusBar from '../../components/StatusBar'
+import Colors  from '../../utils/Colors'
 
 const Tab = createBottomTabNavigator()
 

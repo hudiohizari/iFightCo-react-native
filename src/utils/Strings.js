@@ -15,5 +15,5 @@ export default {
     labelSponsor: "Terima Kasih",
     labelSponsorCaption: "Penyedia data open source sebagai sumber terpercaya dan sponsor yang telah membantu",
     labelAplikasiVersi: "Aplikasi Versi",
-
+    labelTidakAdaPesanLagi: "Tidak ada pesan lagi"
 }

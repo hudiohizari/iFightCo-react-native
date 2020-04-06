@@ -14,9 +14,17 @@ const getProvinces = () => {
     })
 }
 
+const getInbox = () => {
+    return request({
+        url: "fightcovid19/notification",
+        method: "GET"
+    })
+}
+
 const ServerRequestManager = {
     getRatio, 
     getProvinces, 
+    getInbox
 }
 
 export default ServerRequestManager

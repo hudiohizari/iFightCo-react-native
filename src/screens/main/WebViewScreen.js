@@ -2,10 +2,10 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { WebView } from 'react-native-webview'
 
-import StatusBar from '../components/StatusBar'
-import Toolbar from '../components/ToolbarBackText'
+import StatusBar from '../../components/StatusBar'
+import Toolbar from '../../components/ToolbarBackText'
 
-import Colors from '../utils/Colors'
+import Colors from '../../utils/Colors'
 
 const WebViewScreen = ({ route, navigation }) =>{
     const { title, link } = route.params

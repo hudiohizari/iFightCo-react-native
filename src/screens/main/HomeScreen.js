@@ -2,17 +2,17 @@ import React, { useRef, useState, useEffect } from 'react'
 import { YellowBox, StyleSheet, Dimensions, ScrollView, View, Text, FlatList, Linking, Platform, Image } from 'react-native'
 import MapView from 'react-native-maps'
 
-import { IconCircleGreen, IconCircleRed } from '../utils/repo/local/SvgRequestManager'
-import SRM from '../utils/repo/remote/ServerRequestManager'
-import { IconVirus, IconRecover, IconTombstone } from '../utils/repo/local/SvgRequestManager'
-import DashboardMenuItem from '../components/DashboardMenuItem'
-import DashboardSponsorItem from '../components/DashboardSponsorItem'
+import { IconCircleGreen, IconCircleRed } from '../../utils/repo/local/SvgRequestManager'
+import SRM from '../../utils/repo/remote/ServerRequestManager'
+import { IconVirus, IconRecover, IconTombstone } from '../../utils/repo/local/SvgRequestManager'
+import DashboardMenuItem from '../../components/DashboardMenuItem'
+import DashboardSponsorItem from '../../components/DashboardSponsorItem'
 
-import Colors from '../utils/Colors'
-import Strings from '../utils/Strings'
-import { MenuList, SponsorList } from '../utils/Statics'
-import CommonUtils from '../utils/CommonUtils'
-import Keys from '../utils/Keys'
+import Colors from '../../utils/Colors'
+import Strings from '../../utils/Strings'
+import { MenuList, SponsorList } from '../../utils/Statics'
+import CommonUtils from '../../utils/CommonUtils'
+import Keys from '../../utils/Keys'
 import { Constants } from 'react-native-unimodules'
 
 const HomeScreen = ({ navigation }) => {
@@ -118,8 +118,7 @@ const HomeScreen = ({ navigation }) => {
 
             <MapView ref={mapRef}
                 style={styles.mapStyle}
-                provider={MapView.PROVIDER_GOOGLE}
-                onMarkerPress={(marker) => {console.log(marker)}}>
+                provider={MapView.PROVIDER_GOOGLE}>
                 {provinces.map(province => (
                     <MapView.Marker
                         key={`${parseFloat(province.lat, 0)}, ${parseFloat(province.lng, 0)}`}

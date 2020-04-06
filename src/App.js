@@ -5,8 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import DropdownAlert from 'react-native-dropdownalert'
 import { useFonts } from '@use-expo/font'
 
-import NavigationScreen from './screens/NavigationScreen'
-import WebViewScreen from './screens/WebViewScreen'
+import NavigationScreen from './screens/main/NavigationScreen'
+import WebViewScreen from './screens/main/WebViewScreen'
 
 import AlertUtils from './utils/AlertUtils'
 import { AppLoading } from 'expo'
