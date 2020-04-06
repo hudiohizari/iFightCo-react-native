@@ -45,7 +45,7 @@ const InboxScreen = () => {
                 refreshColor={Colors.lightBlack}
                 renderItem={getRenderItem}
                 // onEndReached={handlerOnEndReached}
-                key={(item) => item.times}
+                keyExtractor={(item) => item.times}
                 onEndReachedText={Strings.labelTidakAdaPesanLagi}
                 onEndReachedTextColor={Colors.grey}
                 isLoadingMore={false}/>
