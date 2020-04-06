@@ -1,5 +1,7 @@
 import React from 'react'
 
+import SvgCircleGreen from '../../../assets/svgs/SvgCircleGreen'
+import SvgCircleRed from '../../../assets/svgs/SvgCircleRed'
 import SvgVirus from '../../../assets/svgs/SvgVirus'
 import SvgRecover from '../../../assets/svgs/SvgRecover'
 import SvgTombstone from '../../../assets/svgs/SvgTombstone'
@@ -11,9 +13,14 @@ import SvgPhone from '../../../assets/svgs/SvgPhone'
 import SvgDtPeduli from '../../../assets/svgs/SvgDtPeduli'
 import SvgSearch from '../../../assets/svgs/SvgSearch'
 import SvgBarChart from '../../../assets/svgs/SvgBarChart'
-import SvgCircleGreen from '../../../assets/svgs/SvgCircleGreen'
-import SvgCircleRed from '../../../assets/svgs/SvgCircleRed'
+import SvgRefresh from '../../../assets/svgs/SvgRefresh'
 
+export const IconCircleGreen = props => {
+    return <SvgCircleGreen {...props}/>
+}
+export const IconCircleRed = props => {
+    return <SvgCircleRed {...props}/>
+}
 export const IconVirus = props => {
     return <SvgVirus {...props}/>
 }
@@ -47,9 +54,6 @@ export const IconSearch = props => {
 export const IconBarChart = props => {
     return <SvgBarChart {...props}/>
 }
-export const IconCircleGreen = props => {
-    return <SvgCircleGreen {...props}/>
-}
-export const IconCircleRed = props => {
-    return <SvgCircleRed {...props}/>
+export const IconRefresh = props => {
+    return <SvgRefresh {...props}/>
 }

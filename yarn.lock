@@ -1432,10 +1432,10 @@
     lodash "^4.5.0"
     prop-types "^15.6.1"
 
-"@use-expo/font@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@use-expo/font/-/font-1.0.1.tgz#cc479e1b7a3ff2ae119ef4c19ec5aa24b71e94c9"
-  integrity sha512-BK5bxlXm8/Anm/sX9224hsnocY0ZNWGsEXmG2DLdRhE+GV62PvGc6PYiusq85EvkmBxBZy034OTQZ8Xw4w3k8w==
+"@use-expo/font@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@use-expo/font/-/font-2.0.0.tgz#09b56d626e5b0c83cd0116f5bb69ad6d612d677f"
+  integrity sha512-oOJ2uaRyZNQg7PnQviz7nBcdrRL38zxScab4ktgtI4asa6G0dHW9wg307uJJmn0sHS04Yqtw+m0EOjDcGw3iWg==
 
 abab@^2.0.0:
   version "2.0.3"
@@ -5769,6 +5769,13 @@ react-native-dropdownalert@^4.2.1:
   integrity sha512-FaGAnL4LMzVqM3a/qjkk5z/YlbJ4pQVv0a+x/06h0BwWFXUvii4RFt+6KRgYn7ZzZQo78SJcWVDCpqxjTKSZHw==
   dependencies:
     prop-types "15.5.10"
+
+react-native-fab@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/react-native-fab/-/react-native-fab-1.0.14.tgz#c9fedfe701a9a622fbce85b336421d3084cfe9a9"
+  integrity sha512-KEBeXzpGeaNTrhWJRqd0qT5idZi7IIBnbs+jyUXfCNfLydFrktx46EZQcKXIMeniYzDYOmOJ9dNrvcKj0HOcqg==
+  dependencies:
+    prop-types "^15.6.0"
 
 react-native-gesture-handler@~1.6.0:
   version "1.6.1"

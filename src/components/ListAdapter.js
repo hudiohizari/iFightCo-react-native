@@ -33,7 +33,7 @@ const ListAdapter = props => {
             extraData={props}
             numColumns={props.numColumns}
             renderItem={ (itemData) => props.renderItem(itemData) }
-            keyExtractor={(item) => item.uuid}
+            keyExtractor={props.key}
             onEndReached={props.onEndReached.bind(this)}
             onEndReachedThreshold={0.8}
             ListFooterComponent={loadingAnimation}/>
@@ -46,6 +46,7 @@ ListAdapter.defaultProps = {
     refreshColor: "black",
     onRefresh: () => {},
     numColumns: 1,
+    key: (item) => item.uuid,
     onEndReached: () => {},
     onEndReachedText: Strings.labelNoMoreItem,
     onEndReachedTextColor: Colors.darkGrey

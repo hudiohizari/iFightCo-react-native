@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { YellowBox, StyleSheet, Dimensions, ScrollView, View, Text, FlatList, Linking, Platform, Image } from 'react-native'
 import MapView from 'react-native-maps'
+import FAB from 'react-native-fab'
 
-import { IconCircleGreen, IconCircleRed } from '../../utils/repo/local/SvgRequestManager'
+import { IconCircleGreen, IconCircleRed, IconRefresh } from '../../utils/repo/local/SvgRequestManager'
 import SRM from '../../utils/repo/remote/ServerRequestManager'
 import { IconVirus, IconRecover, IconTombstone } from '../../utils/repo/local/SvgRequestManager'
 import DashboardMenuItem from '../../components/DashboardMenuItem'
@@ -18,8 +19,10 @@ import { Constants } from 'react-native-unimodules'
 const HomeScreen = ({ navigation }) => {
     YellowBox.ignoreWarnings([ "VirtualizedLists should never be nested", /*TODO: Remove when fixed*/ ])
 
+    const scrollViewRef = useRef(null)
     const mapRef = useRef(null)
 
+    const [isRefreshing, setIsRefreshing] = useState(true)
     const [lastUpdated, setLastUpdated] = useState("Terakhir diperbarui: -")
     const [positive, setPositive] = useState(0)
     const [recover, setRecover] = useState(0)
@@ -27,9 +30,11 @@ const HomeScreen = ({ navigation }) => {
     const [provinces, setProvinces] = useState([])
 
     useEffect(() => {
-        getRatio()
-        getProvinces()
-    }, [])
+        if(isRefreshing){
+            getRatio()
+            getProvinces()
+        }
+    }, [isRefreshing])
 
     useEffect(() => {
         const positions = provinces.map(province => (
@@ -49,8 +54,9 @@ const HomeScreen = ({ navigation }) => {
             setRecover(data.recovered)
             setDeath(data.deaths)
             setLastUpdated("Terakhir diperbarui: " + data.lastupdated)
+            setIsRefreshing(false)
         })
-        .catch(error => {})
+        .catch(error => { setIsRefreshing(false) })
     }
     
     const getProvinces = async () => { 
@@ -90,6 +96,11 @@ const HomeScreen = ({ navigation }) => {
             })
         }
     }
+    
+    const handlerFabPressed = () => {
+        setIsRefreshing(true)
+        scrollViewRef.current.scrollTo({x:0, y:0, animated:true})
+    }
 
     const getMarkerSize = size => {
         if(size <= 100){
@@ -108,136 +119,144 @@ const HomeScreen = ({ navigation }) => {
     }
 
     return (
-        <ScrollView style={styles.screen}>
+        <View style={styles.screen}>
 
-            <Text style={styles.header}>
-                {Strings.labelWelcomeStart}
-                <Text style={styles.textRed}>{Strings.labelWelcomeRed}</Text>
-                {Strings.labelWelcomeEnd}
-            </Text>
+            <ScrollView ref={scrollViewRef}>
+                <Text style={styles.header}>
+                    {Strings.labelWelcomeStart}
+                    <Text style={styles.textRed}>{Strings.labelWelcomeRed}</Text>
+                    {Strings.labelWelcomeEnd}
+                </Text>
 
-            <MapView ref={mapRef}
-                style={styles.mapStyle}
-                provider={MapView.PROVIDER_GOOGLE}>
-                {provinces.map(province => (
-                    <MapView.Marker
-                        key={`${parseFloat(province.lat, 0)}, ${parseFloat(province.lng, 0)}`}
-                        coordinate={{latitude: parseFloat(province.lat, 0), longitude: parseFloat(province.lng, 0)}}
-                        title={province.province}
-                        description={"Kasus Positif: " + province.positive}>
-                        {
-                            province.positive > 0 ? 
-                            <IconCircleRed size={getMarkerSize(province.positive)} /> : 
-                            <IconCircleGreen size={10} />
-                        }
-                    </MapView.Marker>
-                ))}
-            </MapView>
+                <MapView ref={mapRef}
+                    style={styles.mapStyle}
+                    provider={MapView.PROVIDER_GOOGLE}>
+                    {provinces.map(province => (
+                        <MapView.Marker
+                            key={`${parseFloat(province.lat, 0)}, ${parseFloat(province.lng, 0)}`}
+                            coordinate={{latitude: parseFloat(province.lat, 0), longitude: parseFloat(province.lng, 0)}}
+                            title={province.province}
+                            description={"Kasus Positif: " + province.positive}>
+                            {
+                                province.positive > 0 ? 
+                                <IconCircleRed size={getMarkerSize(province.positive)} /> : 
+                                <IconCircleGreen size={10} />
+                            }
+                        </MapView.Marker>
+                    ))}
+                </MapView>
 
-            <Text style={styles.textLastUpdate}>{lastUpdated}</Text>
+                <Text style={styles.textLastUpdate}>{lastUpdated}</Text>
 
-            <Text style={styles.textRatio}>
-                {Strings.labelRasioStart}
-                <Text style={styles.textRed}>{Strings.labelRasioRed}</Text>
-            </Text>
+                <Text style={styles.textRatio}>
+                    {Strings.labelRasioStart}
+                    <Text style={styles.textRed}>{Strings.labelRasioRed}</Text>
+                    {Strings.labelRasioEnd}
+                </Text>
 
-            <View style={styles.containerRatio}>
-                <View style={styles.containerRatioItem}>
-                    <View style={styles.containerRatioItemHeader}>
-                        <IconVirus />
+                <View style={styles.containerRatio}>
+                    <View style={styles.containerRatioItem}>
+                        <View style={styles.containerRatioItemHeader}>
+                            <IconVirus />
+                            <Text adjustsFontSizeToFit numberOfLines={1}
+                                style={styles.textRatioHeader}>
+                                {Strings.labelPositif}
+                            </Text>
+                        </View>
                         <Text adjustsFontSizeToFit numberOfLines={1}
-                            style={styles.textRatioHeader}>
-                            {Strings.labelPositif}
+                            style={{...styles.textRatioNumber, color: Colors.primaryPurple}}>
+                            {positive}
+                        </Text>
+                        <Text adjustsFontSizeToFit numberOfLines={1}
+                            style={styles.textRatioLabel}>
+                            {Strings.labelKasus}
                         </Text>
                     </View>
-                    <Text adjustsFontSizeToFit numberOfLines={1}
-                        style={{...styles.textRatioNumber, color: Colors.primaryPurple}}>
-                        {positive}
-                    </Text>
-                    <Text adjustsFontSizeToFit numberOfLines={1}
-                        style={styles.textRatioLabel}>
-                        {Strings.labelKasus}
-                    </Text>
-                </View>
-                <View style={styles.containerRatioItem}>
-                    <View style={styles.containerRatioItemHeader}>
-                        <IconRecover />
+                    <View style={styles.containerRatioItem}>
+                        <View style={styles.containerRatioItemHeader}>
+                            <IconRecover />
+                            <Text adjustsFontSizeToFit numberOfLines={1}
+                                style={styles.textRatioHeader}>
+                                {Strings.labelSembuh}
+                            </Text>
+                        </View>
                         <Text adjustsFontSizeToFit numberOfLines={1}
-                            style={styles.textRatioHeader}>
-                            {Strings.labelSembuh}
+                            style={{...styles.textRatioNumber, color: Colors.blue}}>
+                            {recover}
                         </Text>
+                        <Text style={styles.textRatioLabel}>{Strings.labelKasus}</Text>
                     </View>
-                    <Text adjustsFontSizeToFit numberOfLines={1}
-                        style={{...styles.textRatioNumber, color: Colors.blue}}>
-                        {recover}
-                    </Text>
-                    <Text style={styles.textRatioLabel}>{Strings.labelKasus}</Text>
-                </View>
-                <View style={styles.containerRatioItem}>
-                    <View style={styles.containerRatioItemHeader}>
-                        <IconTombstone />
+                    <View style={styles.containerRatioItem}>
+                        <View style={styles.containerRatioItemHeader}>
+                            <IconTombstone />
+                            <Text adjustsFontSizeToFit numberOfLines={1}
+                                style={styles.textRatioHeader}>
+                                {Strings.labelMeninggal}
+                            </Text>
+                        </View>
                         <Text adjustsFontSizeToFit numberOfLines={1}
-                            style={styles.textRatioHeader}>
-                            {Strings.labelMeninggal}
+                            style={{...styles.textRatioNumber, color: Colors.red}}>
+                            {death}
                         </Text>
+                        <Text style={styles.textRatioLabel}>{Strings.labelKasus}</Text>
                     </View>
-                    <Text adjustsFontSizeToFit numberOfLines={1}
-                        style={{...styles.textRatioNumber, color: Colors.red}}>
-                        {death}
-                    </Text>
-                    <Text style={styles.textRatioLabel}>{Strings.labelKasus}</Text>
                 </View>
-            </View>
 
-            <Text style={styles.textService}>
-                {Strings.labelLayanan}
-            </Text>
+                <Text style={styles.textService}>
+                    {Strings.labelLayanan}
+                </Text>
 
-            <Text style={styles.textServiceCaption}>
-                {Strings.labelLayananCaption}
-            </Text>
+                <Text style={styles.textServiceCaption}>
+                    {Strings.labelLayananCaption}
+                </Text>
 
-            <FlatList 
-                nestedScrollEnabled={false}
-                style={{...styles.listMenu, backgroundColor: Colors.darkWhite}}
-                columnWrapperStyle={styles.listMenuColum}
-                data={MenuList}
-                renderItem={(itemData) => (
-                    <DashboardMenuItem 
-                        item={itemData.item} 
-                        onSelected={handlerMenuSelected}
-                        column={4}/>
-                )}
-                keyExtractor={(item) => item.id}
-                numColumns={4}/>
+                <FlatList 
+                    nestedScrollEnabled={false}
+                    style={{...styles.listMenu, backgroundColor: Colors.darkWhite}}
+                    columnWrapperStyle={styles.listMenuColum}
+                    data={MenuList}
+                    renderItem={(itemData) => (
+                        <DashboardMenuItem 
+                            item={itemData.item} 
+                            onSelected={handlerMenuSelected}
+                            column={4}/>
+                    )}
+                    keyExtractor={(item) => item.id}
+                    numColumns={4}/>
 
-            <Text style={styles.textSponsor}>
-                {Strings.labelLayanan}
-            </Text>
+                <Text style={styles.textSponsor}>
+                    {Strings.labelLayanan}
+                </Text>
 
-            <Text style={styles.textSponsorCaption}>
-                {Strings.labelLayananCaption}
-            </Text>
+                <Text style={styles.textSponsorCaption}>
+                    {Strings.labelLayananCaption}
+                </Text>
 
-            <FlatList 
-                nestedScrollEnabled={false}
-                style={{...styles.listMenu, marginTop: 0}}
-                columnWrapperStyle={styles.listMenuColum}
-                data={SponsorList}
-                renderItem={(itemData) => (
-                    <DashboardSponsorItem 
-                        item={itemData.item} 
-                        onSelected={handlerSponsorSelected}
-                        column={4}/>
-                )}
-                keyExtractor={(item) => item.id}
-                numColumns={4}/>
+                <FlatList 
+                    nestedScrollEnabled={false}
+                    style={{...styles.listMenu, marginTop: 0}}
+                    columnWrapperStyle={styles.listMenuColum}
+                    data={SponsorList}
+                    renderItem={(itemData) => (
+                        <DashboardSponsorItem 
+                            item={itemData.item} 
+                            onSelected={handlerSponsorSelected}
+                            column={4}/>
+                    )}
+                    keyExtractor={(item) => item.id}
+                    numColumns={4}/>
 
-            <Text style={styles.textVersion}>
-                {Strings.labelAplikasiVersi + " " + Constants.manifest.version}
-            </Text>
+                <Text style={styles.textVersion}>
+                    {Strings.labelAplikasiVersi + " " + Constants.manifest.version}
+                </Text>
+            </ScrollView>
             
-        </ScrollView>
+            <FAB style={styles.fab} 
+                buttonColor="white" 
+                onClickAction={handlerFabPressed} 
+                iconTextComponent={<IconRefresh />} />
+            
+        </View>
     )
 }
 
@@ -254,6 +273,7 @@ const styles = StyleSheet.create({
     },
     textRed: {
         color: Colors.red,
+        fontWeight: "bold"
     },
     mapStyle: {
         width: Dimensions.get('window').width - 32,
@@ -295,7 +315,6 @@ const styles = StyleSheet.create({
     },
     textRatioHeader: {
         flex: 1,
-        marginStart: 4,
         color: Colors.lightBlack,
         fontSize: 12,
         fontWeight: "bold",
@@ -348,7 +367,9 @@ const styles = StyleSheet.create({
         fontSize: 10,
     },
     textVersion: {
-        margin: 16,
+        marginTop: 64,
+        marginHorizontal: 16,
+        marginVertical: 16,
         color: Colors.grey,
         fontSize: 12,
         fontWeight: "bold",
