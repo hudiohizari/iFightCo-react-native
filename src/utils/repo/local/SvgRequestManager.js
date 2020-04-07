@@ -14,6 +14,7 @@ import SvgDtPeduli from '../../../assets/svgs/SvgDtPeduli'
 import SvgSearch from '../../../assets/svgs/SvgSearch'
 import SvgBarChart from '../../../assets/svgs/SvgBarChart'
 import SvgRefresh from '../../../assets/svgs/SvgRefresh'
+import SvgPin from '../../../assets/svgs/SvgPin'
 
 export const IconCircleGreen = props => {
     return <SvgCircleGreen {...props}/>
@@ -56,4 +57,7 @@ export const IconBarChart = props => {
 }
 export const IconRefresh = props => {
     return <SvgRefresh {...props}/>
+}
+export const IconPin = props => {
+    return <SvgPin {...props}/>
 }

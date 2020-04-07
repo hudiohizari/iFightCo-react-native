@@ -46,19 +46,22 @@ const AutoCompleteBox = props => {
                     onChangeText={query => setQuery(query)}
                     underlineColorAndroid="white"
                     style={styles.inputText}/>  
+                {query.length > 0 && 
                 <TouchableOpacity activeOpacity={ActiveOpacityDashboardMenu}  
                     onPress={clearInput}>
                     <Text style={styles.textClose}>X</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
             </View>
 
             {isFocused && props.data &&
                 <View style={styles.containerResult}>
                     <ScrollView keyboardShouldPersistTaps="always">
                         {props.data.map( value => {
-                            if(value.includes(query)) { 
+                            if(value.toLowerCase().includes(query.toLowerCase())) { 
                                 return (
-                                    <TouchableOpacity onPress={onSelectedItem.bind(this, value)}>
+                                    <TouchableOpacity 
+                                        key={value}
+                                        onPress={onSelectedItem.bind(this, value)}>
                                         <Text style={styles.textItem}>{value}</Text>
                                     </TouchableOpacity>
                                 )
@@ -102,7 +105,10 @@ const styles = StyleSheet.create({
     },
     inputText: {
         flexGrow: 1,
-        flexShrink: 1
+        flexShrink: 1,
+        paddingVertical: 14,
+        color: Colors.lightBlack,
+        fontSize: 16,
     },
     textClose: {
         padding: 12,

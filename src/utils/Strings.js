@@ -22,5 +22,6 @@ export default {
     labelRsRujukan: "RS Rujukan",
     labelCariProvinsi: "Cari provinsi",
     labelRujukanHeader: "Rumah sakit rujukan",
-    labelRujukanCaption: "Temukan rumah sakit untuk melawan COVID-19"
+    labelRujukanCaption: "Temukan rumah sakit untuk melawan COVID-19",
+    labelLokasiAnda: "Lokasi Anda",
 }

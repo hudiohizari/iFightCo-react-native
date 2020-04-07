@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { YellowBox, StyleSheet, Dimensions, ScrollView, View, Text, FlatList, Linking, Platform, Image } from 'react-native'
+import { YellowBox, StyleSheet, Dimensions, ScrollView, View, Text, FlatList, Linking, Platform } from 'react-native'
 import MapView from 'react-native-maps'
 import FAB from 'react-native-fab'
+import { Constants } from 'react-native-unimodules'
 
 import { IconCircleGreen, IconCircleRed, IconRefresh } from '../../utils/repo/local/SvgRequestManager'
 import SRM from '../../utils/repo/remote/ServerRequestManager'
@@ -14,7 +15,6 @@ import Strings from '../../utils/Strings'
 import { MenuList, SponsorList } from '../../utils/Statics'
 import CommonUtils from '../../utils/CommonUtils'
 import Keys from '../../utils/Keys'
-import { Constants } from 'react-native-unimodules'
 
 const HomeScreen = ({ navigation }) => {
     YellowBox.ignoreWarnings([ "VirtualizedLists should never be nested", /*TODO: Remove when fixed*/ ])
@@ -43,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
         if(positions.length > 0){
             mapRef.current.fitToCoordinates(
                 positions, 
-                { edgePadding: { top: 10, right: 10, bottom: 10, left: 10 } })
+                { edgePadding: { top: 10, right: 10, bottom: 10, left: 10 }})
         }
     }, [provinces])
     
@@ -259,7 +259,7 @@ const HomeScreen = ({ navigation }) => {
             <FAB style={styles.fab} 
                 buttonColor="white" 
                 onClickAction={handlerFabPressed} 
-                iconTextComponent={<IconRefresh />} />
+                iconTextComponent={<IconRefresh fill={Colors.grey}/>} />
             
         </View>
     )

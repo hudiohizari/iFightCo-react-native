@@ -21,10 +21,18 @@ const getInbox = () => {
     })
 }
 
+const getHospitals = (id, lat, lng) => {
+    return request({
+        url: `hospital/provincess/${id}/${lat}/${lng}`,
+        method: "GET"
+    })
+}
+
 const ServerRequestManager = {
     getRatio, 
     getProvinces, 
-    getInbox
+    getInbox,
+    getHospitals
 }
 
 export default ServerRequestManager
