@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         color: Colors.lightBlack,
         fontSize: 16,
-        zIndex: 2,
     },
     textHeader: {
         marginTop: 16,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { StyleSheet, View, TouchableOpacity, TextInput, Text, Platform } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, TextInput, Text, Platform, Keyboard, Dimensions } from 'react-native'
 
 import { IconSearch } from '../utils/repo/local/SvgRequestManager'
 import { ActiveOpacityDashboardMenu } from '../utils/Statics' 
@@ -26,34 +26,35 @@ const AutoCompleteBox = props => {
     }
 
     const onSelectedItem = value => {
+        Keyboard.dismiss()
         props.onSelectedItem(value)
         setQuery(value)
         setIsFocused(false)
     }
 
     return (
-        <View style={{...styles.containerInput, ...props.containerStyle}}>
+        <View style={Platform.OS === "ios" ? styles.container : {}}>
 
-            <IconSearch style={styles.iconSearch} />
-
-            <TextInput
-                ref={inputRef}
-                onFocus={handlerOnFocusInput}
-                placeholder={props.placeholder}
-                placeholderTextColor={Colors.grey}
-                value={query}
-                onChangeText={query => setQuery(query)}
-                underlineColorAndroid="white"
-                style={styles.inputText}/>
-                
-            <TouchableOpacity activeOpacity={ActiveOpacityDashboardMenu}  
-                onPress={clearInput}>
-                <Text style={styles.textClose}>X</Text>
-            </TouchableOpacity>
+            <View style={{...styles.containerInput, ...props.containerStyle}}>
+                <IconSearch style={styles.iconSearch} />
+                <TextInput
+                    ref={inputRef}
+                    onFocus={handlerOnFocusInput}
+                    placeholder={props.placeholder}
+                    placeholderTextColor={Colors.grey}
+                    value={query}
+                    onChangeText={query => setQuery(query)}
+                    underlineColorAndroid="white"
+                    style={styles.inputText}/>  
+                <TouchableOpacity activeOpacity={ActiveOpacityDashboardMenu}  
+                    onPress={clearInput}>
+                    <Text style={styles.textClose}>X</Text>
+                </TouchableOpacity>
+            </View>
 
             {isFocused && props.data &&
                 <View style={styles.containerResult}>
-                    <ScrollView>
+                    <ScrollView keyboardShouldPersistTaps="always">
                         {props.data.map( value => {
                             if(value.includes(query)) { 
                                 return (
@@ -66,6 +67,7 @@ const AutoCompleteBox = props => {
                     </ScrollView>
                 </View>
             }
+
         </View>
     )       
 }
@@ -77,6 +79,9 @@ AutoCompleteBox.defauldProps={
 }
 
 const styles = StyleSheet.create({
+    container:{
+        zIndex: 2
+    },
     containerInput: {
         flexDirection: "row",
         marginHorizontal: 16,
@@ -111,15 +116,17 @@ const styles = StyleSheet.create({
     containerResult: {
         position: "absolute",
         alignSelf: "baseline",
-        width: "100%",
-        maxHeight: 200,
-        marginTop: Platform.OS == "android" ? 50 : 48,
+        width: Dimensions.get("window").width - 32,
+        maxHeight: Dimensions.get("window").height * .5 ,
+        marginTop: Platform.OS == "android" ? 68 : 66,
+        marginHorizontal: 16,
         padding: 8,
         borderRadius: 4,
         backgroundColor: "white",
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity: 0.25,
         elevation: 2,
+        zIndex: 3
     },
     textItem: {
         paddingVertical: 8,
