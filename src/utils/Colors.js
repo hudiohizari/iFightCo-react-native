@@ -8,5 +8,8 @@ export default {
     orange: "#E68931",
     yellow: "#FFD700",
     blue: "#0857CD",
-    blueFacebook: "#3B5998"
+    blueFacebook: "#3B5998",
+
+    //Translucent
+    translucentBlack: "rgba(0, 0, 0, 0.75)",
 }
