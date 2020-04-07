@@ -19,3 +19,5 @@ const styles = StyleSheet.create({
 })
 
 export default StatusBar
+
+export const statusBarHeight = Platform.OS == "ios" ? Constants.statusBarHeight : 0

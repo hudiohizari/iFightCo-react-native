@@ -17,7 +17,7 @@ export const MenuList = [
         id: Keys.KEY_MENU_RS_RUJUKAN,
         title: 'RS Rujukan',
         img: IconHospital,
-        isActive: false
+        isActive: true
     },
     {
         id: Keys.KEY_MENU_EDUKASI_COVID,
@@ -30,7 +30,7 @@ export const MenuList = [
         id: Keys.KEY_MENU_DIAGNOSA_MANDIRI,
         title: 'Diagnosa Mandiri',
         img: IconStethoscope,
-        link: "https://covid19.prixa.ai/?pId=817d1193-f4ce-439e-b357-16466695d970&appId=9f9d9731-8331-4cb3-a441-95d5d8b44d7f/",
+        link: "https://covid19.prixa.ai/?pId=ccd51a74-4abe-43c0-a336-4946046a9177&appId=7273efb7-6efa-418b-a06e-7d4637097e90/",
         isActive: true
     },
     {
@@ -55,7 +55,7 @@ export const MenuList = [
     },
     {
         id: Keys.KEY_MENU_LACAK_ODSODP,
-        title: 'Lacak ODS/ODP Belitung',
+        title: 'Lacak ODS / ODP',
         img: IconSearch,
         isActive: false
     },

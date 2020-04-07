@@ -11,7 +11,7 @@ import { ActiveOpacity } from '../utils/Statics'
 const ToolbarBackTextButton = props => {
 
     return (
-        <View style={[styles.toolbar, {backgroundColor: props.color}]}>
+        <View style={[styles.toolbar, {backgroundColor: props.color, borderBottomColor: props.childColor}]}>
 
             <View style={styles.backIcon}>
                 <TouchableOpacity activeOpacity={ActiveOpacity} onPress={props.onBackPressed.bind(this)}>
@@ -22,6 +22,7 @@ const ToolbarBackTextButton = props => {
             <Text style={[styles.textTitle, {color: props.childColor}]} numberOfLines={1} adjustsFontSizeToFit={true}>
                 {props.title}
             </Text>
+            
         </View>
     )
 }
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "white",
         justifyContent: "space-between",
+        borderBottomWidth: 1,
         shadowColor: "black",
         shadowOffset: { width: 0, height: 5 },
         shadowOpacity: 0.15,
@@ -63,3 +65,5 @@ const styles = StyleSheet.create({
 })
 
 export default ToolbarBackTextButton
+
+export const toolbarHeight = 56

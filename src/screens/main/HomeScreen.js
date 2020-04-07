@@ -68,13 +68,17 @@ const HomeScreen = ({ navigation }) => {
     const handlerMenuSelected = item => {
         if(!item.isActive) CommonUtils.showAlert("info", `${item.title}`, "Masih dalam tahap pengembangan")
         else {
-            if(item.link){
+            if(item.link) {
                 navigation.navigate("WebView", {
                     title: item.title,
                     link: item.link,
                 })
             } else {
-                if(item.id === Keys.KEY_MENU_RS_RUJUKAN) {}
+                if(item.id === Keys.KEY_MENU_RS_RUJUKAN) {
+                    navigation.navigate("Reference", {
+                        provinces: provinces,
+                    })
+                }
                 else if(item.id === Keys.KEY_MENU_HOTLINE) {
                     const url = Platform.OS === "ios" ? "tel://119" : "tel:119"
                     Linking.openURL(url)
@@ -104,18 +108,19 @@ const HomeScreen = ({ navigation }) => {
 
     const getMarkerSize = size => {
         if(size <= 100){
-            return 10
+            return 5
         } else if (size > 100 && size < 500) {
-            return size / 20
-        } else if (size >= 500 && size < 1000) {
-            return size / 25
-        } else if (size >= 1000 && size < 1500) {
-            return size / 30
-        } else if (size >= 1500 && size < 2000) {
-            return size / 35
-        } else {
-            return 64
-        }
+            return size / 15
+        } else return 25
+        // else if (size >= 500 && size < 1000) {
+        //     return size / 30
+        // } else if (size >= 1000 && size < 1500) {
+        //     return size / 35
+        // } else if (size >= 1500 && size < 2000) {
+        //     return size / 45
+        // } else {
+        //     return 64
+        // }
     }
 
     return (
@@ -140,7 +145,7 @@ const HomeScreen = ({ navigation }) => {
                             {
                                 province.positive > 0 ? 
                                 <IconCircleRed size={getMarkerSize(province.positive)} /> : 
-                                <IconCircleGreen size={10} />
+                                <IconCircleGreen size={5} />
                             }
                         </MapView.Marker>
                     ))}
