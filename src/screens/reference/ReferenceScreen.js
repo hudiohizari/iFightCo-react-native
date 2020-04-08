@@ -1,14 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { StyleSheet, Dimensions, View, Text } from 'react-native'
+import { StyleSheet, Dimensions, View, Text, BackHandler } from 'react-native'
 import MapView from 'react-native-maps'
 import * as Location from 'expo-location'
 import * as Permissions from 'expo-permissions'
 import Geocoder from 'react-native-geocoding'
-import { Constants } from 'react-native-unimodules'
+import Modal from 'react-native-modals'
 
 import StatusBar from '../../components/StatusBar'
 import Toolbar from '../../components/ToolbarBackText'
 import AutoCompleteBox from '../../components/AutoCompleteBox'
+import HospialDetailContent from '../../components/HospialDetailContent'
 
 import { IconHospital, IconPin, IconRefresh } from '../../utils/repo/local/SvgRequestManager'
 import SRM from '../../utils/repo/remote/ServerRequestManager'
@@ -26,6 +27,24 @@ const WebViewScreen = ({ route, navigation }) =>{
     const [location, setLocation] = useState()
     const [address, setAddress] = useState("-")
     const [hospitals, setHospitals] = useState()
+    const [isHospitalDetailVisible, setIsHospitalDetailVisible] = useState(false)
+    const [selectedHospital, setSelectedHospital] = useState()
+
+    // Start of Fix for android backbutton not closing Modal
+    useEffect(() => {
+        BackHandler.addEventListener("hardwareBackPress", handlerBackButton)
+    
+        return () => {
+            BackHandler.removeEventListener("hardwareBackPress", handlerBackButton)
+        }
+    }, [isHospitalDetailVisible])
+    
+    const handlerBackButton = () => {
+        if(!isHospitalDetailVisible) return false
+        setIsHospitalDetailVisible(false)
+        return true //Prevent back to previous screen
+    }
+    // End of Fix for android backbutton not closing Modal
 
     useEffect(() => {
         Geocoder.init(Env.GEO_CODING)
@@ -41,8 +60,7 @@ const WebViewScreen = ({ route, navigation }) =>{
                 .then(json => {
                     setAddress(json.results[0].formatted_address)
                 })
-                .catch(error => console.log(error))
-                // .catch(error => CommonUtils.showAlert("info", "Oops", error))
+                .catch(error => CommonUtils.showAlert("info", "Oops", error))
         }
     }, [location])
 
@@ -57,6 +75,10 @@ const WebViewScreen = ({ route, navigation }) =>{
                 { edgePadding: { top: 10, right: 10, bottom: 10, left: 10 }})
         }
     }, [hospitals])
+
+    // useEffect(() => {
+    //     if(selectedHospital) 
+    // }, [selectedHospital])
 
     const handlerBackPressed = () => { 
         navigation.popToTop() 
@@ -80,13 +102,22 @@ const WebViewScreen = ({ route, navigation }) =>{
             if(province.province == value) return (index + 1)
         })
         let province = provinces[index]
-        getHospitals(province.province_code, province.lat, province.lng)
+        getHospitals(province.province_code, location.latitude, location.longitude)
     }
 
     const getHospitals = (id, lat, lng) => {
         SRM.getHospitals(id, lat, lng)
         .then(data => { setHospitals(data.hospital) })
         .catch(error => { })
+    }
+
+    const handlerOnMarkerPressed = index => {
+        setSelectedHospital(hospitals[index])
+        setIsHospitalDetailVisible(true)
+    }
+
+    const handlerOnCloseHospitalDetail = () => {
+        setIsHospitalDetailVisible(false)
     }
 
     return(
@@ -117,8 +148,9 @@ const WebViewScreen = ({ route, navigation }) =>{
                 showsUserLocation={true}
                 style={styles.mapStyle}
                 provider={MapView.PROVIDER_GOOGLE}>
-                {hospitals && hospitals.map(hospital => (
+                {hospitals && hospitals.map((hospital, index) => (
                     <MapView.Marker
+                        onPress={handlerOnMarkerPressed.bind(this, index)}
                         key={`${parseFloat(hospital.lat, 0)}, ${parseFloat(hospital.lng, 0)}`}
                         coordinate={{latitude: parseFloat(hospital.lat, 0), longitude: parseFloat(hospital.lng, 0)}}
                         title={hospital.name}>
@@ -136,6 +168,13 @@ const WebViewScreen = ({ route, navigation }) =>{
                     <IconRefresh fill={Colors.primaryPurple} size={32}/>
                 </TouchableOpacity>
             </View>
+
+            <Modal.BottomModal
+                    visible={isHospitalDetailVisible}
+                    onTouchOutside={handlerOnCloseHospitalDetail}
+                    onSwipeOut={handlerOnCloseHospitalDetail}>
+                    <HospialDetailContent hospital={selectedHospital}/>
+                </Modal.BottomModal>
 
         </View>
     )
@@ -181,7 +220,7 @@ const styles = StyleSheet.create({
         color: Colors.lightBlack,
         fontSize: 12,
         fontWeight: "bold"
-    }
+    },
 })
 
 export default WebViewScreen

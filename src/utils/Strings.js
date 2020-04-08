@@ -24,4 +24,6 @@ export default {
     labelRujukanHeader: "Rumah sakit rujukan",
     labelRujukanCaption: "Temukan rumah sakit untuk melawan COVID-19",
     labelLokasiAnda: "Lokasi Anda",
+    labelJarakDatiTempatmu: "Jarak dari tempatmu ",
+    labelDapatkanPetunjukArah: "DAPATKAN PETUNJUK ARAH",
 }

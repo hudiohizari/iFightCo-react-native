@@ -80,8 +80,7 @@ const HomeScreen = ({ navigation }) => {
                     })
                 }
                 else if(item.id === Keys.KEY_MENU_HOTLINE) {
-                    const url = Platform.OS === "ios" ? "tel://119" : "tel:119"
-                    Linking.openURL(url)
+                    Linking.openURL(Platform.OS === "ios" ? "tel://119" : "tel:119")
                 }
                 else if(item.id === Keys.KEY_MENU_LACAK_ODSODP) {}
             }
