@@ -26,6 +26,7 @@ const WebViewScreen = ({ route, navigation }) =>{
 
     const [location, setLocation] = useState()
     const [address, setAddress] = useState("-")
+    const [selectedProvince, setSelectedProvince] = useState()
     const [hospitals, setHospitals] = useState()
     const [isHospitalDetailVisible, setIsHospitalDetailVisible] = useState(false)
     const [selectedHospital, setSelectedHospital] = useState()
@@ -76,10 +77,6 @@ const WebViewScreen = ({ route, navigation }) =>{
         }
     }, [hospitals])
 
-    // useEffect(() => {
-    //     if(selectedHospital) 
-    // }, [selectedHospital])
-
     const handlerBackPressed = () => { 
         navigation.popToTop() 
     }
@@ -102,6 +99,7 @@ const WebViewScreen = ({ route, navigation }) =>{
             if(province.province == value) return (index + 1)
         })
         let province = provinces[index]
+        setSelectedProvince(province)
         getHospitals(province.province_code, location.latitude, location.longitude)
     }
 
@@ -114,6 +112,13 @@ const WebViewScreen = ({ route, navigation }) =>{
     const handlerOnMarkerPressed = index => {
         setSelectedHospital(hospitals[index])
         setIsHospitalDetailVisible(true)
+    }
+
+    const handlerShowList = () => {
+        navigation.navigate("HospitalList", {
+            title: selectedProvince.province,
+            hospitals,
+        })
     }
 
     const handlerOnCloseHospitalDetail = () => {
@@ -151,13 +156,19 @@ const WebViewScreen = ({ route, navigation }) =>{
                 {hospitals && hospitals.map((hospital, index) => (
                     <MapView.Marker
                         onPress={handlerOnMarkerPressed.bind(this, index)}
-                        key={`${parseFloat(hospital.lat, 0)}, ${parseFloat(hospital.lng, 0)}`}
+                        key={hospital.name}
                         coordinate={{latitude: parseFloat(hospital.lat, 0), longitude: parseFloat(hospital.lng, 0)}}
                         title={hospital.name}>
                         <IconHospital />
                     </MapView.Marker>
                 ))}
             </MapView>
+
+            {hospitals?.length > 1 && <TouchableOpacity onPress={handlerShowList}>
+                <Text style={styles.textList}>
+                    {Strings.labelLihatDaftar(hospitals?.length)}
+                </Text>
+            </TouchableOpacity>}
             
             <View style={styles.containerAddress}>
                 <IconPin size={32}/>
@@ -207,6 +218,14 @@ const styles = StyleSheet.create({
         aspectRatio: 1.5,
         marginTop: 16,
         marginHorizontal: 16,
+    },
+    textList:{
+        marginTop: 4,
+        marginHorizontal: 16,
+        color: Colors.primaryPurple,
+        textAlign: "right",
+        fontSize: 16,
+        fontWeight: "bold"
     },
     containerAddress: {
         flexDirection: "row",

@@ -8,6 +8,7 @@ import { useFonts } from '@use-expo/font'
 import NavigationScreen from './screens/main/NavigationScreen'
 import WebViewScreen from './screens/main/WebViewScreen'
 import ReferenceScreen from './screens/reference/ReferenceScreen'
+import HospitalListScreen from './screens/reference/HospitalListScreen'
 
 import AlertUtils from './utils/AlertUtils'
 import { AppLoading } from 'expo'
@@ -62,6 +63,9 @@ export default function App() {
 						<Stack.Screen 
 							name="Reference" 
 							component={ReferenceScreen}/>
+						<Stack.Screen 
+							name="HospitalList" 
+							component={HospitalListScreen}/>
 					</Stack.Navigator>
 				</NavigationContainer>
 	

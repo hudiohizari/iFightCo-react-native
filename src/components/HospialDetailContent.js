@@ -30,7 +30,7 @@ const HospialDetailContent = props => {
                 {props.hospital?.address}
             </Text>
             <Text style={styles.textDistance}>
-                {Strings.labelJarakDatiTempatmu + props.hospital?.distance} Km
+                {Strings.labelJarakDariTempatmu + props.hospital?.distance} Km
             </Text>
             <RoundedButton 
                 title={Strings.labelDapatkanPetunjukArah} 
